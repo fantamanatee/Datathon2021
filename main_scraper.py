@@ -75,7 +75,7 @@ def estProfit(name_cont, soup):
 
 
 numData = "100"#input("Enter how many cars to collect data of: ")
-URL = "https://www.salvagebid.com/salvage-cars-for-sale?page=5&per_page="+numData+"&type=car"
+URL = "https://www.salvagebid.com/salvage-cars-for-sale?page=6&per_page="+numData+"&type=car"
 # Instantiate an Options object
 # and add the "--headless" argument
 PATH = "C:\Program Files (x86)\chromedriver.exe"
@@ -96,7 +96,7 @@ spa_react_root = soup.find(id="spa-react-root")
 result_containers = spa_react_root.find_all("div",class_ = "result-item-data")
 names_containers = spa_react_root.find_all("div",class_ = "result-item-name")
 names = []
-item_id = 0
+item_id = 200
 the_big_dict = {#{0:{
     # 'year' = 2011,
     # 'model' = 'FORD',
@@ -185,7 +185,7 @@ header = ['ID','Year', "Make", "Model", 'Odometer', 'Title','Damage', 'Engine','
 
 toWrite = []
 
-for x in range(1,len(the_big_dict)+1):
+for x in range(201,301):
     toAppend = [x]
     currDict = the_big_dict[x]
 
