@@ -5,7 +5,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import os
 import time
-
+from collections import OrderedDict
+import csv
 
 numData = "10"#input("Enter how many cars to collect data of: ")
 URL = "https://www.salvagebid.com/salvage-cars-for-sale?per_page="+numData+"&type=car"
@@ -92,7 +93,36 @@ for w in range(len(the_big_dict)):
         toAppend = 0.0
     the_big_dict[w+1]['Worth'] = toAppend
 #2.5 1.6 4.6 6.0 4.0 2.0 6.0 3.0 3.0 5.4 
+
+#sorting each sub_dict by key
+for key in the_big_dict:
+    the_big_dict[key] = OrderedDict(sorted(the_big_dict[key].items()))
+
 pprint.pprint(the_big_dict)
 
-print("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+header = ['ID','Year', "Make", "Model", 'Odometer', 'Title','Damage', 'Engine','Worth']
+
+toWrite = []
+
+for x in range(1,len(the_big_dict)+1):
+    toAppend = [x]
+    currDict = the_big_dict[x]
+
+    toAppend.append(currDict['Year'])
+    toAppend.append(currDict['Make'])
+    toAppend.append(currDict['Model'])
+    toAppend.append(currDict['Odometer'])
+    toAppend.append(currDict['Title'])
+    toAppend.append(currDict['Damage'])
+    toAppend.append(currDict['Engine'])
+    toAppend.append(currDict['Worth'])
+
+    toWrite.append(toAppend)
+
+with open('damaged_car_data.csv', 'w', encoding='UTF8', newline='') as f:
+    writer = csv.writer(f)
+    writer.writerow(header)
+    writer.writerows(toWrite)
+
+
 # print(result_containers[0].prettify())
