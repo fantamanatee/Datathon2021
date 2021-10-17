@@ -83,6 +83,15 @@ for rest_cont in result_containers:
     the_big_dict[item_id] = the_small_dict
 
 
+#adding manual damage assessment
+worth = input('Enter your opinion on the car\'s worth, based on damage assessment (separated by spaces) (out of 10): ').split()
+for w in range(len(the_big_dict)):
+    if(w<len(worth)):
+        toAppend = round(float(worth[w]),1)
+    else:
+        toAppend = 0.0
+    the_big_dict[w+1]['Worth'] = toAppend
+#2.5 1.6 4.6 6.0 4.0 2.0 6.0 3.0 3.0 5.4 
 pprint.pprint(the_big_dict)
 
 print("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
