@@ -1,14 +1,26 @@
 import requests
 from bs4 import BeautifulSoup
 
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import os
+
 numData = input("Enter how many cars to collect data of: ")
 URL = "https://www.salvagebid.com/salvage-cars-for-sale?per_page="+numData+"&type=car"
-page = requests.get(URL)
+# Instantiate an Options object
+# and add the "--headless" argument
+PATH = "C:\Program Files (x86)\chromedriver.exe"
+options = webdriver.ChromeOptions()
+options.add_argument("headless")
+driver = webdriver.Chrome(PATH, chrome_options=options)
+driver.get(URL)
 
-soup = BeautifulSoup(page.content, "html.parser")
+soup_file=driver.page_source
+soup = BeautifulSoup(soup_file)
+body = soup.find('body')
+spa_react_root = soup.find(id="spa-react-root")
+page_content = spa_react_root.find_all("div", class_="page-content")
 
-body = soup.find(id="spa-react-root")
-page_content = body.find_all("div", class_="page-content")
 
-
-print(page_content)
+print("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+print(spa_react_root.prettify())
