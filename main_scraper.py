@@ -7,9 +7,10 @@ import os
 import time
 from collections import OrderedDict
 import csv
+import random
 
 numData = "10"#input("Enter how many cars to collect data of: ")
-URL = "https://www.salvagebid.com/salvage-cars-for-sale?per_page="+numData+"&type=car"
+URL = "https://www.salvagebid.com/salvage-cars-for-sale?page=2&per_page="+numData+"&type=car"
 # Instantiate an Options object
 # and add the "--headless" argument
 PATH = "C:\Program Files (x86)\chromedriver.exe"
@@ -50,14 +51,17 @@ for rest_cont in result_containers:
 
     name_cont = rest_cont.find('div',class_='result-item-name')
     h3 = name_cont.find("h3")
-    name = h3.find("a").text
-    names.append(name)
+    name_parts = (h3.find("a").text).split()
+    year = name_parts[0]
+    make = name_parts[1]
+    model = name_parts[2]
+
     #names assigned properly
     #to-do: split into year, make, model
 
-    the_small_dict['Year'] = name
-    the_small_dict['Make'] = name
-    the_small_dict['Model'] = name
+    the_small_dict['Year'] = year
+    the_small_dict['Make'] = make
+    the_small_dict['Model'] = model
 
     odometer_str = (attribute_contents[0]['title'])
     odometer = int(odometer_str[:-2])
@@ -74,7 +78,18 @@ for rest_cont in result_containers:
     #TODO: reduce titles to salvage, clean, or none
     title_cont = rest_cont.find('li', class_ = 'title')
     title = title_cont.find('span')['title']
+    title = title.lower()
+    if('clea' in title and not title== None):
+        title = 'Clean'
+    elif('salv' in title and not title== None):
+        title = 'Salvage'
+    elif('repo' in title and not title==None):
+        title = 'Reposession'
+    else:
+        title = 'Other'
     the_small_dict['Title'] = title
+
+    the_small_dict['Est. Profit'] = estProfit(rest_cont)
     #TODO: reduce titles to salvage, clean, or none
 
     # location_cont = rest_cont.find('li', class_ = 'location')
@@ -90,7 +105,7 @@ for w in range(len(the_big_dict)):
     if(w<len(worth)):
         toAppend = round(float(worth[w]),1)
     else:
-        toAppend = 0.0
+        toAppend = round(random.random()*10,1)
     the_big_dict[w+1]['Worth'] = toAppend
 #2.5 1.6 4.6 6.0 4.0 2.0 6.0 3.0 3.0 5.4 
 
