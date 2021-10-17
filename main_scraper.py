@@ -9,8 +9,11 @@ from collections import OrderedDict
 import csv
 import random
 
-numData = "10"#input("Enter how many cars to collect data of: ")
-URL = "https://www.salvagebid.com/salvage-cars-for-sale?page=2&per_page="+numData+"&type=car"
+# def estProfit()
+
+
+numData = "100"#input("Enter how many cars to collect data of: ")
+URL = "https://www.salvagebid.com/salvage-cars-for-sale?page=4&per_page="+numData+"&type=car"
 # Instantiate an Options object
 # and add the "--headless" argument
 PATH = "C:\Program Files (x86)\chromedriver.exe"
@@ -89,7 +92,7 @@ for rest_cont in result_containers:
         title = 'Other'
     the_small_dict['Title'] = title
 
-    the_small_dict['Est. Profit'] = estProfit(rest_cont)
+    # the_small_dict['Est. Profit'] = estProfit(rest_cont)
     #TODO: reduce titles to salvage, clean, or none
 
     # location_cont = rest_cont.find('li', class_ = 'location')
@@ -100,12 +103,13 @@ for rest_cont in result_containers:
 
 
 #adding manual damage assessment
-worth = input('Enter your opinion on the car\'s worth, based on damage assessment (separated by spaces) (out of 10): ').split()
+# worth = input('Enter your opinion on the car\'s worth, based on damage assessment (separated by spaces) (out of 10): ').split()
 for w in range(len(the_big_dict)):
-    if(w<len(worth)):
-        toAppend = round(float(worth[w]),1)
-    else:
-        toAppend = round(random.random()*10,1)
+    # if(w<len(worth)):
+    #     toAppend = round(float(worth[w]),1)
+    # else:
+    #     toAppend = round(random.random()*10,1)
+    toAppend = round(random.randint(1000,10000),0)
     the_big_dict[w+1]['Worth'] = toAppend
 #2.5 1.6 4.6 6.0 4.0 2.0 6.0 3.0 3.0 5.4 
 
@@ -134,9 +138,9 @@ for x in range(1,len(the_big_dict)+1):
 
     toWrite.append(toAppend)
 
-with open('damaged_car_data.csv', 'w', encoding='UTF8', newline='') as f:
+with open('damaged_car_data.csv', 'a', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
-    writer.writerow(header)
+    # writer.writerow(header)
     writer.writerows(toWrite)
 
 
