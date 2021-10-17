@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+import pprint
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import os
@@ -70,10 +70,20 @@ for rest_cont in result_containers:
     engine = engine_cont.find('span')['title']
     the_small_dict['Engine'] = engine
 
+    #TODO: reduce titles to salvage, clean, or none
+    title_cont = rest_cont.find('li', class_ = 'title')
+    title = title_cont.find('span')['title']
+    the_small_dict['Title'] = title
+    #TODO: reduce titles to salvage, clean, or none
+
+    # location_cont = rest_cont.find('li', class_ = 'location')
+    # location = location_cont.find('span')['location']
+    # the_small_dict['Loc'] = location[-2:] WONT WORK IDKKKKKKKK
+
     the_big_dict[item_id] = the_small_dict
 
 
-print(the_big_dict[1])
+pprint.pprint(the_big_dict)
 
 print("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
 # print(result_containers[0].prettify())
